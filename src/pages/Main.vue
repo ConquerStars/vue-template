@@ -1,6 +1,7 @@
 <template>
   <div class="enterMain">
-
+    主页-main
+    <a-button>跳转到登录</a-button>
   </div>
 </template>
 
