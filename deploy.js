@@ -10,7 +10,7 @@ const accet = {
   username: 'test',
   password: 'test',
 }
-const serverMap = {
+const serverMap = { // 服务器ip&端口配置
   'prod': {
     host: '192.168.1.1',
     port: '22'

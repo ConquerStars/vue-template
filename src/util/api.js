@@ -1,5 +1,9 @@
-import axios from 'axios'
+import Vue from 'vue'
+import router from '@/router'
 
+let vue = new Vue({router})
+
+import axios from 'axios'
 axios.defaults.baseURL = '/api/v1'
 
 axios.defaults.crossDomain = true
@@ -11,7 +15,12 @@ axios.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          console.log('未授权')
+          console.log('未登录或无效凭证')
+          vue.$router.replace('login')
+          break
+        case 403:
+          console.log('未授权访问')
+          vue.$router.replace('login')
           break
       }
     }
@@ -20,12 +29,15 @@ axios.interceptors.response.use(
 )
 
 // 登录相关
-let accountService = {
-  doLogin(params){
+let account = {
+  doLogin(params){ // 登录
     return axios.post('/account/login', params)
-  }
+  },
+  fetchUserInfo(){ // 获取用户信息
+    return axios.get('/account/profile')
+  },
 }
 
 export{
-  accountService
+  account
 }
