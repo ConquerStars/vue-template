@@ -23,7 +23,7 @@ export default {
           avatar: ''
         })
         this.$route.name === 'main' && this.$router.replace('/dashboard')
-      }, 500)
+      }, 1500)
       // account.fetchUserInfo().then(({data})=> {
       //   this.$store.commit('setUserInfo', data)
       //   this.$route.name === 'main' && this.$router.replace('/dashboard')

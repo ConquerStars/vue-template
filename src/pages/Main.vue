@@ -6,7 +6,7 @@
       </a-spin>
       <span class="loading_msg">拼命加载中...</span>
     </div>
-    <router-view />
+    <router-view v-else />
   </div>
 </template>
 

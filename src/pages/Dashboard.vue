@@ -35,6 +35,9 @@ export default {
     handlerMouseup(){ // 鼠标放开
       this.maskModal = false
     }
+  },
+  mounted(){
+    console.log('dashboard complete')
   }
 }
 </script>
