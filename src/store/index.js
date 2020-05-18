@@ -5,17 +5,23 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    fetching: false,
+    fetching: true,
+    collapsed: false,
     user_info: {},
-    menu: '菜单1'
+    menus: {
+      'SY': false
+    }
   },
   mutations: {
+    setMenus(state, info){
+      state.menus = info
+    },
     setUserInfo(state, info){
       state.user_info = info
-      state.fetching = true
+      state.fetching = false
     },
-    setMenu(state, info){
-      state.menu = info
+    setMenuCollapsed(state, info){
+      state.collapsed = info
     }
   }
 })

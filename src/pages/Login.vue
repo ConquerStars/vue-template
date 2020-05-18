@@ -16,7 +16,8 @@
 </template>
 
 <script>
-import {account} from '@/util/api'
+// import {account} from '@/util/api'
+import {routerMatch} from '@/util/utils'
 
 export default {
   name: "login",
@@ -42,39 +43,46 @@ export default {
     }
   },
   methods: {
-    async handleSubmit(e){
+    handleSubmit(e){
       e.preventDefault()
+      let redirect = this.$route.query.redirect
       this.form.validateFields((err, values)=> {
         if(!err){
-          this.loading = true
           console.log(values)
+          this.loading = true
           setTimeout(() => {
+            let menus = ['SY']
+            localStorage.setItem('menus', menus)
+            localStorage.setItem('roles', ['VIP'])
             this.loading = false
-          }, 800)
-          account.doLogin(values).then(({data})=> {
-            console.log(data)
-            account.fetchUserInfo().then(({data})=> {
-              this.$store.commit('setUserInfo', data)
-              this.$router.replace('/dashboard')
-            }).catch((e)=> {
-              console.log('获取用户信息失败', e)
-            })
-          }).catch((e)=> {
-            console.log('登录失败', e)
-          }).finally(()=> {
-            this.loading = false
-          })
+            this.$router.replace(redirect ? redirect : routerMatch(menus))
+          }, 500);
+          // account.doLogin(values).then(({data})=> {
+          //   localStorage.setItem('menus', data.menus)
+          //   localStorage.setItem('roles', data.roles)
+          //   this.$router.replace(redirect ? redirect : routerMatch(menus))
+          //   // account.fetchUserInfo().then(({data})=> {
+          //   //   this.$store.commit('setUserInfo', data)
+          //   //   this.$router.replace(redirect ? redirect : routerMatch(menus))
+          //   // }).catch((e)=> {
+          //   //   this.$message.error('未获取到当前用户相关信息，请联系管理员！')
+          //   //   console.log('获取用户信息失败', e)
+          //   // })
+          // }).catch((e)=> {
+          //   this.$message.error('登录失败！请联系管理员！')
+          //   console.log('登录失败', e)
+          // }).finally(()=> {
+          //   setTimeout(() => {
+          //     this.loading = false
+          //   }, 2000)
+          // })
         }
       })
     }
-  },
-  mounted() {
-    console.log('login')
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 .login{
   .form_box{

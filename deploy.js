@@ -12,21 +12,21 @@ const accet = {
 }
 const serverMap = { // 服务器ip&端口配置
   'prod': {
-    host: '192.168.1.1',
+    host: '129.204.15.249',
     port: '22'
   },
   'test': {
-    host: '192.168.1.1',
+    host: '10.168.1.200',
     port: '22'
   },
   'dev': {
-    host: '192.168.1.1',
+    host: '10.168.1.200',
     port: '22'
   },
 }
-// 路径禁止为 / 或者 /*  
+// 路径禁止为 / 或者 /*
 const path = '/home/www/html/' // 项目部署的服务器目标位置
-const name = 'vue-template' // 项目名称
+const name = 'dh-hongmeng' // 项目名称
 const dist = './dist/' // 打包后项目文件
 
 const backupCmd = (conn)=> {
