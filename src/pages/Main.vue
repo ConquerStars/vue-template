@@ -1,115 +1,81 @@
 <template>
-  <div class="enterMain">
-    <div class="loading_mask" v-if="fetching">
-      <a-spin class="loading">
-        <a-icon slot="indicator" type="loading" spin />
-      </a-spin>
-      <span class="loading_msg">拼命加载中...</span>
-    </div>
-    <a-layout v-else>
+  <a-layout class="enterMain">
+    <layout-header />
 
-      <side-menus />
+    <a-layout-content class="layout_content">
+      <router-view />
+    </a-layout-content>
 
-      <a-layout>
-        <main-header />
-        <a-layout-content class="custom_content">
-          <router-view />
-          <a-back-top />
-        </a-layout-content>
-        <main-footer />
-      </a-layout>
-    </a-layout>
-  </div>
+    <layout-footer />
+  </a-layout>
 </template>
 
 <script>
-import SideMenus from '@/components/sidemenus'
-import MainHeader from '@/components/header'
-import MainFooter from '@/components/footer'
+import LayoutHeader from '@/components/Header'
+import LayoutFooter from '@/components/Footer'
+
+import {account} from '@/util/api'
+import {routerMatch} from '@/util/utils'
 
 export default {
   name: 'enterMain',
   components: {
-    SideMenus,
-    MainHeader,
-    MainFooter,
-  },
-  computed: {
-    fetching(){
-      return this.$store.state.fetching
-    }
-  },
-  created(){
-    this.checkAuth()
+    LayoutHeader,
+    LayoutFooter,
   },
   methods: {
-    checkAuth(){
+    checkAuth() {
       let menusStr = localStorage.getItem('menus')
-      let menus = menusStr?menusStr.split(','):[]
-      if(menus.length){
+      let menus = menusStr ? menusStr.split(',') : []
+      let rolesStr = localStorage.getItem('roles')
+      let roles = rolesStr ? rolesStr.split(',') : []
+      let redirect = this.$route.fullPath
+      if (menus.length && roles.length) {
         this.menuCtr(menus)
-        console.log('查询用户信息')
-        setTimeout(() => {
-          this.$store.commit('setUserInfo', {name: 'cooong', avatar: ''})
-        }, 2000)
-        // account.fetchInfo().then(({data})=> {
-        //   this.$store.commit('setUserInfo', data)
-        // }).catch(({response})=> {
-        //   console.error(response.data.msg || '查询用户信息失败！')
-        //   this.$store.commit('setUserInfo', {})
-        //   this.$router.replace(`/login?redirect=${this.$route.fullPath}`)
-        // })
+        this.roleCtr(roles)
+        account.getInfo().then(({data}) => {
+            this.$store.commit('setUserInfo', data)
+            setTimeout(() => {
+              if (this.$route.name === 'main')
+                this.$router.replace(routerMatch(menus))
+            }, 200);
+            // fetchCdnDomain().then(({data}) => { // 获取cdn域名
+            //   this.$store.commit('setCdnDomain, data);
+            // })
+            // account.getResourceCode().then(({data})=>{ // 获取资源权限
+            //   let sources = data.split(':')
+            //   this.$store.commit('setXXXResources', sources[0]||'')
+            // })
+          }).catch(data => {
+            this.$message.warning(data.code === 401?'请先登录！':data.msg||'服务器繁忙！请稍后再试！')
+          })
       } else {
-        let redirect = this.$route.fullPath
-        this.$store.commit('setUserInfo', {})
-        this.$router.replace(`/login${(redirect&&redirect!=='/')?`?redirect=${redirect}`:''}`)
+        this.$message.error('该用户无权限！')
+        this.$store.commit('logout')
+        this.$router.replace(`/login${redirect && redirect !== '/' ? `?redirect=${redirect}` : ''}`)
       }
     },
-    menuCtr(menus){
-      let temp = {...this.$store.state.menus}
-      if(menus.includes('*')){ // 管理员拥有全部菜单
-        for(let i in temp){ temp[i] = true }
-      } else {
-        for(let i of menus){ temp[i] = true }
-      }
+    menuCtr(menus) {
+      let temp = { ...this.$store.state.menus }
+      for (let i of menus) {temp[i] = true}
       this.$store.commit('setMenus', temp)
-    }
+    },
+    roleCtr(roles) {
+      let temp = { ...this.$store.state.roles }
+      for (let i of roles) {temp[i] = true}
+      this.$store.commit('setRoles', temp)
+    },
+  },
+  mounted() {
+    this.checkAuth()
   }
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 .enterMain{
-  .loading_mask{
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    .loading{
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      >.anticon{
-        font-size: 32px;
-      }
-    }
-    .loading_msg{
-      position: absolute;
-      top: 40%;
-      left: 50%;
-      transform: translate(-50%, calc(32px - 50%));
-    }
-  }
-  .ant-layout{
-    min-height: 100vh;
-    .custom_content{
-      margin: 24px 16px 0;
-      padding: 24px;
-      background: #fff;
-    }
+  .layout_content{
+    min-height: calc(100vh - 64px - 38px);
   }
 }
 </style>

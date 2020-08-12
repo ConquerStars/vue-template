@@ -1,4 +1,5 @@
 import axios from 'axios'
+import router from '@/router'
 
 axios.defaults.baseURL = '/api/v1'
 
@@ -11,7 +12,7 @@ axios.interceptors.response.use(
     if (error.response) {
       switch (error.response.status) {
         case 401:
-          console.log('未授权')
+          router.replace(`/login${router.fullPath && router.fullPath !== '/' ? `?redirect=${router.fullPath}` : ''}`)
           break
       }
     }
@@ -19,16 +20,24 @@ axios.interceptors.response.use(
   }
 )
 
+let fetchCdnDomain = ()=> { // 获取资源服务器地址
+  return axios.get(`/resources/cdn`)
+}
+
 // 登录相关
 let account = {
   doLogin(params){ // 登录
     return axios.post('/account/login', params)
   },
-  fetchUserInfo(){ // 查询用户基本信息
-    return axios.get('account/profile')
-  }
+  getInfo(){ // 获取当前用户相关信息
+    return axios.get(`/users`)
+  },
+  logout(){ // 退出登录
+    return axios.post('/account/logout')
+  },
 }
 
 export{
-  account
+  fetchCdnDomain,
+  account,
 }

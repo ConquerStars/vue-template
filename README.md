@@ -1,6 +1,6 @@
 # vue-template
 vue2.x项目模板，包含```vue-router```, ```vuex```, ```ant-design```、```axios```、```less```，  
-```使用前请先支持EditorConfig```
+```多人协作时 使用前请先支持EditorConfig 保证代码统一风格```
 
 > 相关文档
 > - VUE路由: [vue-router](https://router.vuejs.org/zh/)  
@@ -10,14 +10,6 @@ vue2.x项目模板，包含```vue-router```, ```vuex```, ```ant-design```、```a
 > - CSS 预处理: [less](http://lesscss.cn/)  
 
 
-npm run upload  默认 部署 到开发环境  
-npm run upload:test  部署 到测试环境  
-npm run upload:prod 部署 到生产环境  
-
-npm run deploy  默认 打包并部署 到开发环境  
-npm run deploy:test  打包并部署 到测试环境  
-npm run deploy:prod 打包并部署 到生产环境  
-
 ## 安装依赖
 > npm i
 
@@ -26,3 +18,16 @@ npm run deploy:prod 打包并部署 到生产环境
 
 ## 打包
 > npm run build
+
+## 部署上传前 需先配置服务器相关配置 ./deploy.js  
+## 部署(默认开发环境)  
+> 部署 - 打包并上传  
+> npm run deploy  
+> npm run deploy:test ```测试环境```  
+> npm run deploy:prod ```生产环境```  
+
+## 上传(默认开发环境)
+> 上传 - 上传根目录下 ```dist``` 文件夹  
+> npm run upload  
+> npm run upload:test ```测试环境```  
+> npm run upload:prod ```生产环境```  

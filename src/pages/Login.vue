@@ -1,23 +1,21 @@
 <template>
   <div class="login">
-    <a-form :form="form" class="form_box" @submit="handleSubmit">
-      <h1>账号登录</h1>
+    <a-form :form="form">
       <a-form-item>
-        <a-input type="text" v-decorator="dec.username" placeholder="用户名/账号" />
+        <a-input placeholder="请输入账号或者手机号" v-decorator="dec.username" />
       </a-form-item>
       <a-form-item>
-        <a-input-password v-decorator="dec.password" placeholder="密码" />
+        <a-input-password placeholder="请输入密码" @keyup.enter="doLogin" v-decorator="dec.password" />
       </a-form-item>
       <a-form-item>
-        <a-button type="primary" :loading="loading" html-type="submit" class="login_btn">登录</a-button>
+        <a-button @click="doLogin">登录</a-button>
       </a-form-item>
     </a-form>
   </div>
 </template>
 
 <script>
-// import {account} from '@/util/api'
-import {routerMatch} from '@/util/utils'
+// import {routerMatch} from '@/util/utils'
 
 export default {
   name: "login",
@@ -25,57 +23,24 @@ export default {
     return {
       form: this.$form.createForm(this),
       dec: {
-        username: ['username', {rules: [
-          {required: true, message: '账号不能为空!'},
-          { validator: (rule, value, callback)=> {
-              let reg = new RegExp('^.{6,20}$', 'g')
-              if (value && !reg.test(value)) {
-                callback('长度为 6 ~ 20 位字符')
-                return
-              }
-              callback()
-            }
-          }
-        ]}],
-        password: ['password', {rules: [{required: true, message: '密码不能为空!'}]}],
-      },
-      loading: false
+        username: ['username', { rules: [{ required: true, message: '账号不能为空！' }], initialValue: '' }],
+        password: ['password', { rules: [{ required: true, message: "密码不能为空!" }], initialValue: '' },
+        ],
+      }
     }
   },
   methods: {
-    handleSubmit(e){
-      e.preventDefault()
-      let redirect = this.$route.query.redirect
-      this.form.validateFields((err, values)=> {
-        if(!err){
+    doLogin(){
+      this.form.validateFields((err, values) => {
+        if (!err) {
           console.log(values)
-          this.loading = true
-          setTimeout(() => {
-            let menus = ['SY']
-            localStorage.setItem('menus', menus)
-            localStorage.setItem('roles', ['VIP'])
-            this.loading = false
-            this.$router.replace(redirect ? redirect : routerMatch(menus))
-          }, 500);
-          // account.doLogin(values).then(({data})=> {
-          //   localStorage.setItem('menus', data.menus)
-          //   localStorage.setItem('roles', data.roles)
-          //   this.$router.replace(redirect ? redirect : routerMatch(menus))
-          //   // account.fetchUserInfo().then(({data})=> {
-          //   //   this.$store.commit('setUserInfo', data)
-          //   //   this.$router.replace(redirect ? redirect : routerMatch(menus))
-          //   // }).catch((e)=> {
-          //   //   this.$message.error('未获取到当前用户相关信息，请联系管理员！')
-          //   //   console.log('获取用户信息失败', e)
-          //   // })
-          // }).catch((e)=> {
-          //   this.$message.error('登录失败！请联系管理员！')
-          //   console.log('登录失败', e)
-          // }).finally(()=> {
-          //   setTimeout(() => {
-          //     this.loading = false
-          //   }, 2000)
-          // })
+          // TODO login
+          // 登录成功需将 菜单 角色 存入本地缓存重
+          // localStorage.setItem('menus', menus)
+          // localStorage.setItem('roles', roles)
+          // 如果有重定向参数 则跳转到重定向url
+          // let redirect = this.$route.query.redirect
+          // this.$router.replace((redirect && redirect != '/') ? redirect : routerMatch(data.menus))
         }
       })
     }
@@ -83,17 +48,13 @@ export default {
 }
 </script>
 
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less" scoped>
 .login{
-  .form_box{
-    position: absolute;
-    width: 400px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    .login_btn{
-      width: 100%;
-    }
-  }
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  transform: translate(-50%, -50%);
 }
 </style>

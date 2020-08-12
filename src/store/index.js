@@ -5,23 +5,30 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    fetching: true,
-    collapsed: false,
     user_info: {},
-    menus: {
-      'SY': false
-    }
+    cdnDomain: '',
+    menus: {},
+    roles: {},
   },
   mutations: {
+    setUserInfo(state, info){
+      state.user_info = info
+    },
     setMenus(state, info){
       state.menus = info
     },
-    setUserInfo(state, info){
-      state.user_info = info
-      state.fetching = false
+    setRoles(state, info){
+      state.roles = info
     },
-    setMenuCollapsed(state, info){
-      state.collapsed = info
-    }
+    setCdnDomain(state, info){
+      state.cdnDomain = info
+    },
+    logout(state){
+      Object.assign(state, {
+        menus: {},
+        roles: {},
+        user_info: {},
+      })
+    },
   }
 })

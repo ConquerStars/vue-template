@@ -15,20 +15,15 @@ const router = new Router({
     path: '/',
     name: 'main',
     component: () => import('@/pages/Main'),
-    children: [{
-      path: '/dashboard/:id?',
-      name: 'dashboard',
-      meta: {expendMenus: []},
-      component: () => import('@/pages/Dashboard')
-    }, {
-      path: '/404',
-      name: '404',
-      component: () => import('@/pages/404')
-    }]
+    children: []
   }, {
     path: '/login',
     name: 'login',
     component: () => import('@/pages/Login')
+  }, {
+    path: '/404',
+    name: '404',
+    component: () => import('@/pages/404')
   }]
 })
 
