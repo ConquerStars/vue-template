@@ -1,8 +1,8 @@
 <template>
   <a-layout-footer class="layout_footer">
     <span>Copyright&nbsp;&copy;&nbsp;2019</span>
-    <span class="company">深圳市大恒数据安全科技有限责任公司</span>
-    <span class="recordNum">粤ICP备17118467号</span>
+    <span class="company">深圳市XXX有限责任公司</span>
+    <span class="recordNum">粤ICP备99999999号</span>
   </a-layout-footer>
 </template>
 
