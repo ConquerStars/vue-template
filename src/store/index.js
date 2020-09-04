@@ -1,8 +1,11 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+/**
+ * 以下依赖已使用cdn引入
+ * import Vue from 'vue'
+ * import Vuex from 'vuex'
+ * Vue.use(Vuex)
+ */
 
-Vue.use(Vuex)
-
+/* global Vuex*/
 export default new Vuex.Store({
   state: {
     user_info: {},

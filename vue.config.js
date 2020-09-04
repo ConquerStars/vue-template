@@ -35,6 +35,12 @@ module.exports = {
     }
   },
   configureWebpack: (config)=>{ // 生产环境过滤console.log
+    config.externals = {
+      'vue': 'Vue',
+      'vuex': 'Vuex',
+      'vue-router': 'VueRouter',
+      'Axios':'axios'
+    }
     if(process.env.NODE_ENV === 'production'){
       config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
     }

@@ -1,4 +1,5 @@
-import axios from 'axios'
+// import axios from 'axios'
+/* global axios*/
 import router from '@/router'
 
 axios.defaults.baseURL = '/api/v1'

@@ -1,12 +1,16 @@
 
-import Vue from 'vue'
-import Router from 'vue-router'
+/**
+ * 以下依赖已使用cdn引入
+ * import Vue from 'vue'
+ * import Router from 'vue-router'
+ * Vue.use(Router)
+ */
+
 // import NProgress from 'nprogress'
 // import 'nprogress/nprogress.css'
 
-Vue.use(Router)
-
-const router = new Router({
+/* global VueRouter*/
+const router = new VueRouter({
   mode: 'history',
   routes: [{
     path: '*',

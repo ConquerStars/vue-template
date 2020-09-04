@@ -1,14 +1,20 @@
-import Vue from 'vue'
+/**
+ * 以下依赖已使用cdn引入
+ * import Vue from 'vue'
+ * import Antd from 'ant-design-vue'
+ * import 'ant-design-vue/dist/antd.less'
+ *
+ */
+
+/* global Vue, antd*/
 import App from './App.vue'
-import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.less'
 import '@babel/polyfill'
 import router from '@/router'
 import store from '@/store'
 
 Vue.config.productionTip = false
 
-Vue.use(Antd)
+Vue.use(antd)
 
 new Vue({
   render: h => h(App),
